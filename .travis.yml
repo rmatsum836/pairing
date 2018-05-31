@@ -34,6 +34,8 @@ install:
 
     # Create test environment for package
   - conda create -n test python=$PYTHON_VER pip pytest pytest-cov
+  - conda config --add channels omnia
+  - conda config --add channels mosdef
   - source activate test
 
     # Install pip only modules
