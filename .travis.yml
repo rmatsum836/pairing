@@ -33,7 +33,7 @@ before_install:
 install:
 
     # Create test environment for package
-  - conda create -n test python=$PYTHON_VER pip pytest pytest-cov
+  - conda create -n test python=$PYTHON_VER pip pytest pytest-cov --file requirements.txt
   - conda config --add channels omnia
   - conda config --add channels mosdef
   - source activate test
