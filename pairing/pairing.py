@@ -5,28 +5,71 @@ analyze pairing and clustering of molecular systems
 Handles the primary functions
 """
 
+from copy import deepcopy
+import itertools
 
-def canvas(with_attribution=True):
+import numpy as np
+
+
+def generate_indirect_connectivity(direct_corr):
     """
-    Placeholder function to show example docstring (NumPy format)
-
-    Replace this function and doc string for your own project
+    Genrate indirect correlation matrix from a direct correlation matrix
 
     Parameters
     ----------
-    with_attribution : bool, Optional, default: True
-        Set whether or not to display who the quote is from
+    direct_corr : numpy.ndarray
+        Direct correlation matrix from which an indirect correlation matrix
+        will be generated.
 
     Returns
     -------
-    quote : str
-        Compiled string including quote and optional attribution
+    indirect_corr : numpy.ndarray
+        Indirect corrlation matrix
     """
 
-    quote = "The code is but a canvas to our imagination."
-    if with_attribution:
-        quote += "\n\t- Adapted from Henry David Thoreau"
-    return quote
+    c = deepcopy(direct_corr)
+    size = np.shape(direct_corr)
+    if size[0] != size[1]:
+        raise ValueError('Direct correlation matrix must be square')
+    length = size[0]
+
+    for combo in itertools.combinations([_ for _ in range(length)], 2):
+        for i in range(length):
+            if c[i, combo[0]] == c[i, combo[1]]:
+                if c[i, combo[0]] == 0:
+                    continue
+                intersect = find_intersection(c[:, combo[0]], c[:, combo[1]])
+                c[:, combo[0]] = intersect
+                c[:, combo[1]] = intersect
+
+    indirect_corr = c
+    return indirect_corr
+
+
+def find_intersection(a, b):
+    """
+    Find set intersection of two arrays
+
+    Parameters
+    ----------
+    a : array-like
+        First array to compare
+    b : array-like
+        Second array to compare
+
+    Returns
+    -------
+    intersection : array-like
+        Set intersection of a and b
+    """
+
+    intersection = np.zeros(len(a))
+    for i in range(len(intersection)):
+        if a[i] == b[i]:
+            intersection[i] = a[i]
+        else:
+            intersection[i] = np.max([a[i], b[i]])
+    return intersection
 
 
 if __name__ == "__main__":
