@@ -72,7 +72,7 @@ def generate_indirect_connectivity(direct_corr):
             if c[i, combo[0]] == c[i, combo[1]]:
                 if c[i, combo[0]] == 0:
                     continue
-                intersect = find_intersection(c[:, combo[0]], c[:, combo[1]])
+                intersect = _find_intersection(c[:, combo[0]], c[:, combo[1]])
                 c[:, combo[0]] = intersect
                 c[:, combo[1]] = intersect
 
@@ -80,7 +80,7 @@ def generate_indirect_connectivity(direct_corr):
     return indirect_corr
 
 
-def find_intersection(a, b):
+def _find_intersection(a, b):
     """
     Find set intersection of two arrays
 
