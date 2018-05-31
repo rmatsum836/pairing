@@ -9,6 +9,40 @@ from copy import deepcopy
 import itertools
 
 import numpy as np
+import mdtraj as md
+
+
+def generate_direct_correlation(trj, cutoff=1.0):
+    """
+    Genrate direct correlation matrix from a COM-based mdtraj.Trajectory.
+
+    Parameters
+    ----------
+    trj : mdtraj.Trajectory
+        Trajectory for which "atom" sites are to be considered
+    cutoff : float, default = 0.8
+        Distance cutoff below which two sites are considered paired
+
+    Returns
+    -------
+    direct_corr : np.ndarray
+        Direct correlation matrix
+    """
+
+    size = trj.top.n_residues
+    direct_corr = np.zeros((size, size))
+
+    for row in range(size):
+        for col in range(size):
+            if row == col:
+                direct_corr[row, col] = 1
+            else:
+                dist = md.compute_distances(trj, atom_pairs=[(row, col)])
+                if dist < cutoff:
+                    direct_corr[row, col] = 1
+                    direct_corr[col, row] = 1
+
+    return direct_corr
 
 
 def generate_indirect_connectivity(direct_corr):
