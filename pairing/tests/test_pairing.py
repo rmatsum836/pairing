@@ -7,11 +7,12 @@ import pytest
 import numpy as np
 import mdtraj as md
 
+from pairing.utils.io import get_fn
 import pairing
 
 
 def test_generate_direct_correlation():
-    trj = md.load('../data/sevick1988.gro')
+    trj = md.load(get_fn('sevick1988.gro'))
 
     ref = np.asarray([[1, 0, 0, 0, 1],
                       [0, 1, 1, 0, 0],
