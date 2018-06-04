@@ -10,9 +10,10 @@ import itertools
 
 import numpy as np
 import mdtraj as md
+from mtools.pairing import chunks
+from mtools.pairing import get_paired_state
 
-
-def generate_direct_correlation(trj, cutoff=1.0):
+def generate_direct_correlation(trj, frame_index=0, cutoff=1.0):
     """
     Genrate direct correlation matrix from a COM-based mdtraj.Trajectory.
 
@@ -28,22 +29,45 @@ def generate_direct_correlation(trj, cutoff=1.0):
     direct_corr : np.ndarray
         Direct correlation matrix
     """
-
-    size = trj.top.n_residues
+    first_frame = trj[frame_index]
+    size = first_frame.top.n_residues
     direct_corr = np.zeros((size, size))
-
+    c = np.zeros(shape=(len(first_frame), 2))
     for row in range(size):
         for col in range(size):
             if row == col:
                 direct_corr[row, col] = 1
             else:
-                dist = md.compute_distances(trj, atom_pairs=[(row, col)])
+                dist = md.compute_distances(first_frame, atom_pairs=[(row, col)])
                 if dist < cutoff:
                     direct_corr[row, col] = 1
                     direct_corr[col, row] = 1
 
     return direct_corr
 
+def calc_cluster(trj, cutoff, chunk_size=500,
+    frame_index=0,check_reform=False):
+    """
+    Checks direct correlation over a trajectory
+    """
+    indirect_list = []
+    for i, frame in enumerate(trj):
+        if i % chunk_size == 0:
+            matrix = generate_direct_correlation(trj, cutoff=cutoff, frame_index=0)
+        for row in range(len(matrix[0])):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] == 1:
+                    dist = md.compute_distances(frame, atom_pairs=[(row,
+                            col)])
+                    if dist < cutoff:
+                        continue
+                    elif dist > cutoff:
+                        matrix[row][col] = 0
+                        matrix[col][row] = 0
+        indirect = generate_indirect_connectivity(matrix)
+        import pdb; pdb.set_trace()
+        indirect_list.append(indirect)
+    return indirect_list
 
 def generate_indirect_connectivity(direct_corr):
     """
