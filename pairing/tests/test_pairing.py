@@ -41,3 +41,11 @@ def test_sevick1988():
                       [1, 1, 1, 0, 1]], dtype=np.int32)
 
     assert (c_I == pairing.generate_indirect_connectivity(c_D)).all()
+
+
+def test_40_atoms():
+    trj = md.load(get_fn('sevick1988.gro'))
+    direct = pairing.generate_direct_correlation(trj, cutoff=0.8)
+    indirect = pairing.generate_indirect_connectivity(direct)
+
+    assert indirect.dtype == np.int32
