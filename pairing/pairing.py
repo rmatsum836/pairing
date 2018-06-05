@@ -97,12 +97,7 @@ def _find_intersection(a, b):
         Set intersection of a and b
     """
 
-    intersection = np.zeros(len(a))
-    for i in range(len(intersection)):
-        if a[i] == b[i]:
-            intersection[i] = a[i]
-        else:
-            intersection[i] = np.max([a[i], b[i]])
+    intersection = np.maximum(a, b)
     return intersection
 
 
