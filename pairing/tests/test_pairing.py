@@ -18,7 +18,7 @@ def test_generate_direct_correlation():
                       [0, 1, 1, 0, 0],
                       [0, 1, 1, 0, 1],
                       [0, 0, 0, 1, 0],
-                      [1, 0, 1, 0, 1]])
+                      [1, 0, 1, 0, 1]], dtype=np.int32)
 
     gen = pairing.generate_direct_correlation(trj, cutoff=0.8)
 
@@ -32,12 +32,12 @@ def test_sevick1988():
                       [0, 1, 1, 0, 0],
                       [0, 1, 1, 0, 1],
                       [0, 0, 0, 1, 0],
-                      [1, 0, 1, 0, 1]])
+                      [1, 0, 1, 0, 1]], dtype=np.int32)
 
     c_I = np.asarray([[1, 1, 1, 0, 1],
                       [1, 1, 1, 0, 1],
                       [1, 1, 1, 0, 1],
                       [0, 0, 0, 1, 0],
-                      [1, 1, 1, 0, 1]])
+                      [1, 1, 1, 0, 1]], dtype=np.int32)
 
     assert (c_I == pairing.generate_indirect_connectivity(c_D)).all()
