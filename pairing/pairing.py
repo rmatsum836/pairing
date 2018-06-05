@@ -25,12 +25,12 @@ def generate_direct_correlation(trj, cutoff=1.0):
 
     Returns
     -------
-    direct_corr : np.ndarray
+    direct_corr : np.ndarray, dtype=np.int32
         Direct correlation matrix
     """
 
     size = trj.top.n_residues
-    direct_corr = np.zeros((size, size))
+    direct_corr = np.zeros((size, size), dtype=np.int32)
 
     for row in range(size):
         for col in range(size):
@@ -51,13 +51,13 @@ def generate_indirect_connectivity(direct_corr):
 
     Parameters
     ----------
-    direct_corr : numpy.ndarray
+    direct_corr : numpy.ndarray, dtype=np.int32
         Direct correlation matrix from which an indirect correlation matrix
         will be generated.
 
     Returns
     -------
-    indirect_corr : numpy.ndarray
+    indirect_corr : numpy.ndarray, dtype=np.int32
         Indirect corrlation matrix
     """
 
@@ -97,7 +97,7 @@ def _find_intersection(a, b):
         Set intersection of a and b
     """
 
-    intersection = np.zeros(len(a))
+    intersection = np.zeros(len(a), dtype=np.int32)
     for i in range(len(intersection)):
         if a[i] == b[i]:
             intersection[i] = a[i]
