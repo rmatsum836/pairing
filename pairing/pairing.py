@@ -65,8 +65,8 @@ def calc_cluster(trj, cutoff, chunk_size=500,
                         matrix[row][col] = 0
                         matrix[col][row] = 0
         indirect = generate_indirect_connectivity(matrix)
-        import pdb; pdb.set_trace()
         indirect_list.append(indirect)
+
     return indirect_list
 
 def generate_indirect_connectivity(direct_corr):
@@ -129,6 +129,22 @@ def _find_intersection(a, b):
             intersection[i] = np.max([a[i], b[i]])
     return intersection
 
+def _check_validity:
+    """
+    Check validity of indirect connectivity matrix
+    ----------
+    c_I : np.ndarray
+    indirect connectivity matrix to test
+
+    Returns
+    -------
+    Boolean True or False
+    """
+    test_indirect = generate_indirect_connectivity(c_I)
+    if (test_indirect == c_I).all():
+        return True
+    else:
+        return False
 
 if __name__ == "__main__":
     # Do something if this file is invoked on its own
