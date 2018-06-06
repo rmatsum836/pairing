@@ -129,7 +129,7 @@ def _find_intersection(a, b):
             intersection[i] = np.max([a[i], b[i]])
     return intersection
 
-def _check_validity:
+def _check_validity(c_I):
     """
     Check validity of indirect connectivity matrix
     ----------
