@@ -115,10 +115,7 @@ def _check_validity(c_I):
     """
 
     test_indirect = generate_indirect_connectivity(c_I)
-    if (test_indirect == c_I).all():
-        return True
-    else:
-        return False
+    return (test_indirect == c_I).all()
 
 if __name__ == "__main__":
     # Do something if this file is invoked on its own
