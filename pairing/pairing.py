@@ -80,6 +80,25 @@ def generate_indirect_connectivity(direct_corr):
     return indirect_corr
 
 
+def generate_clusters(indirect):
+    """
+    Generate clusters by reducing the indirect matrix
+
+    Parameters
+    ----------
+    indirect_corr : numpy.ndarray, dtype=np.int32
+        Indirect corrlation matrix
+
+    Returns
+    -------
+    clusters : numpy.ndarray, dtype=np.int32
+        Matrix in which each column represents a cluster and corresponding
+        row indices match the indices of sites in a given cluster.
+    """
+    clusters = np.unique(indirect, axis=1)
+    return clusters
+
+
 def _find_intersection(a, b):
     """
     Find set intersection of two arrays
