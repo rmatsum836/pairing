@@ -99,6 +99,28 @@ def generate_clusters(indirect):
     return clusters
 
 
+def analyze_clusters(clusters):
+    """
+    Find the average and standard deviation of cluster sizes.
+
+    Parameters
+    ----------
+    clusters : numpy.ndarray, dtype=np.int32
+        Matrix in which each column represents a cluster and corresponding
+
+    Returns
+    -------
+    avg : float
+        Average cluster size
+    stdev : float
+        Standard deviation of cluster sizes
+    """
+    cluster_sizes = np.sum(clusters)
+    avg = np.mean(cluster_sizes)
+    stdev = np.std(cluster_sizes)
+    return avg, stdev
+
+
 def _find_intersection(a, b):
     """
     Find set intersection of two arrays
