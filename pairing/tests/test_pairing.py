@@ -10,7 +10,6 @@ import mdtraj as md
 from pairing.utils.io import get_fn
 import pairing
 
-
 def test_generate_direct_correlation():
     trj = md.load(get_fn('sevick1988.gro'))
 
@@ -41,6 +40,26 @@ def test_sevick1988():
                       [1, 1, 1, 0, 1]], dtype=np.int32)
 
     assert (c_I == pairing.generate_indirect_connectivity(c_D)).all()
+
+
+def test_check_validity_pass():
+    c_I = np.asarray([[1, 1, 1, 0, 1],
+                      [1, 1, 1, 0, 1],
+                      [1, 1, 1, 0, 1],
+                      [0, 0, 0, 1, 0],
+                      [1, 1, 1, 0, 1]], dtype=np.int32)
+
+    assert pairing.pairing._check_validity(c_I) == True
+
+
+def test_check_validity_fail():
+    c_intermediate = np.asarray([[1, 0, 0, 0, 1],
+                                 [0, 1, 1, 0, 0],
+                                 [1, 1, 1, 0, 1],
+                                 [0, 0, 0, 1, 0],
+                                 [1, 0, 1, 0, 1]], dtype=np.int32)
+
+    assert pairing.pairing._check_validity(c_intermediate) == False
 
 
 def test_40_atoms():

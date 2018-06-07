@@ -100,6 +100,22 @@ def _find_intersection(a, b):
     intersection = np.maximum(a, b)
     return intersection
 
+def _check_validity(c_I):
+    """
+    Check validity of indirect connectivity matrix
+
+    Parameters
+    ----------
+    c_I : np.ndarray
+    indirect connectivity matrix to test
+
+    Returns
+    -------
+    Boolean 'True' or 'False'
+    """
+
+    test_indirect = generate_indirect_connectivity(c_I)
+    return (test_indirect == c_I).all()
 
 if __name__ == "__main__":
     # Do something if this file is invoked on its own
