@@ -115,7 +115,7 @@ def analyze_clusters(clusters):
     stdev : float
         Standard deviation of cluster sizes
     """
-    cluster_sizes = np.sum(clusters)
+    cluster_sizes = np.sum(clusters, axis=0)
     avg = np.mean(cluster_sizes)
     stdev = np.std(cluster_sizes)
     return avg, stdev
