@@ -46,7 +46,7 @@ def test_check_validity_pass():
     c_I = np.asarray([[1, 1, 1, 0, 1],
                       [1, 1, 1, 0, 1],
                       [1, 1, 1, 0, 1],
-                      [0, 0, 0, 1, 0], 
+                      [0, 0, 0, 1, 0],
                       [1, 1, 1, 0, 1]], dtype=np.int32)
 
     assert pairing.pairing._check_validity(c_I) == True
