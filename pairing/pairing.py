@@ -13,6 +13,35 @@ import mdtraj as md
 from pairing import indirect
 
 
+def calc_cluster(trj, cutoff, chunk_size=500,
+        frame_index=0, check_reform=False):
+    """
+    Collect cluster information over a trajectory
+    """
+    indirect_list = []
+    for i, frame in enumerate(trj):
+        print(i)
+        if i % chunk_size == 0:
+            frame_trj = trj[i]
+            matrix = generate_direct_correlation(frame_trj, cutoff=cutoff)
+            print('calculated direct matrix')
+        else:
+            for row in range(len(matrix[0])):
+                for col in range(len(matrix[0])):
+                    if matrix[row][col] == 1:
+                        print('Checking if pair still exists')
+                        dist = md.compute_distances(frame,
+                                atom_pairs=[(row, col)])
+                        if dist < cutoff:
+                            continue
+                        elif dist > cutoff:
+                            matrix[row][col] = 0
+                            matrix[col][row] = 0
+
+        indirect = new_generate_indirect(matrix)
+        reduction = generate_clusters(indirect)
+        indirect_list.append(reduction)
+
 def generate_direct_correlation(trj, cutoff=1.0):
     """
     Genrate direct correlation matrix from a COM-based mdtraj.Trajectory.
