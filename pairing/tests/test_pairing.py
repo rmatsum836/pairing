@@ -39,7 +39,7 @@ def test_sevick1988():
                       [0, 0, 0, 1, 0],
                       [1, 1, 1, 0, 1]], dtype=np.int32)
 
-    assert (c_I == pairing.indirect._generate_indirect_connectivity(c_D)).all()
+    assert (c_I == pairing.pairing._generate_indirect_connectivity(c_D)).all()
 
 
 def test_check_validity_pass():
@@ -65,6 +65,6 @@ def test_check_validity_fail():
 def test_40_atoms():
     trj = md.load(get_fn('sevick1988.gro'))
     direct = pairing.generate_direct_correlation(trj, cutoff=0.8)
-    indirect = pairing.indirect._generate_indirect_connectivity(direct)
+    indirect = pairing.pairing._generate_indirect_connectivity(direct)
 
     assert indirect.dtype == np.int32
