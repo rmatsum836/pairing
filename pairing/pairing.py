@@ -10,7 +10,6 @@ import itertools
 
 import numpy as np
 import mdtraj as md
-from pairing import indirect
 
 
 def generate_direct_correlation(trj, cutoff=1.0):
@@ -45,6 +44,40 @@ def generate_direct_correlation(trj, cutoff=1.0):
 
     return direct_corr
 
+
+def _generate_indirect_connectivity(direct_corr):
+    """
+    Genrate indirect correlation matrix from a direct correlation matrix
+
+    Parameters
+    ----------
+    direct_corr : numpy.ndarray, dtype=np.int32
+        Direct correlation matrix from which an indirect correlation matrix
+        will be generated.
+
+    Returns
+    -------
+    indirect_corr : numpy.ndarray, dtype=np.int32
+        Indirect corrlation matrix
+    """
+
+    c = deepcopy(direct_corr)
+    size = np.shape(direct_corr)
+    if size[0] != size[1]:
+        raise ValueError('Direct correlation matrix must be square')
+    length = size[0]
+
+    for combo in itertools.combinations([_ for _ in range(length)], 2):
+        for i in range(length):
+            if c[i, combo[0]] == c[i, combo[1]]:
+                if c[i, combo[0]] == 0:
+                    continue
+                intersect = _find_intersection(c[:, combo[0]], c[:, combo[1]])
+                c[:, combo[0]] = intersect
+                c[:, combo[1]] = intersect
+
+    indirect_corr = c
+    return indirect_corr
 
 def generate_clusters(indirect):
     """
@@ -121,14 +154,14 @@ def _check_validity(c_I):
     Boolean 'True' or 'False'
     """
 
-    test_indirect = indirect._generate_indirect_connectivity(c_I)
+    test_indirect = _generate_indirect_connectivity(c_I)
     return (test_indirect == c_I).all()
 
 def new_generate_indirect(direct_corr):
-    new_indirect = indirect._generate_indirect_connectivity(
+    new_indirect = _generate_indirect_connectivity(
             direct_corr)
     while _check_validity(new_indirect) == False:
-        new_indirect = indirect._generate_indirect_connectivity(
+        new_indirect = _generate_indirect_connectivity(
                 new_indirect)
 
     return new_indirect
