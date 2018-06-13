@@ -79,6 +79,7 @@ def _generate_indirect_connectivity(direct_corr):
     indirect_corr = c
     return indirect_corr
 
+
 def generate_clusters(indirect):
     """
     Generate clusters by reducing the indirect matrix
@@ -140,6 +141,7 @@ def _find_intersection(a, b):
     intersection = np.maximum(a, b)
     return intersection
 
+
 def _check_validity(c_I):
     """
     Check validity of indirect connectivity matrix
@@ -157,7 +159,24 @@ def _check_validity(c_I):
     test_indirect = _generate_indirect_connectivity(c_I)
     return (test_indirect == c_I).all()
 
+
 def new_generate_indirect(direct_corr):
+    """
+    Iteratively call '_generate_indirect_connectivity' and
+    '_check_validity' to generate valid indirect correlation
+    matrices
+
+    Parameters
+    ----------
+    direct_corr : np.ndarray
+    direct correlation matrix
+
+    Returns
+    _______
+    new_indirect : np.ndarray
+    indirect connectivity matrix
+    """
+
     new_indirect = _generate_indirect_connectivity(
             direct_corr)
     while _check_validity(new_indirect) == False:
@@ -165,6 +184,7 @@ def new_generate_indirect(direct_corr):
                 new_indirect)
 
     return new_indirect
+
 
 if __name__ == "__main__":
     # Do something if this file is invoked on its own
