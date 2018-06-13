@@ -89,3 +89,15 @@ def test_cluster_analysis():
     reduction = pairing.generate_clusters(indirect)
 
     assert pairing.analyze_clusters(reduction) == (2.5, 1.5)
+
+def test_new_indirect():
+    ref = np.asarray([[1, 1, 1, 0, 1],
+                      [1, 1, 1, 0, 1],
+                      [1, 1, 1, 0, 1],
+                      [0, 0, 0, 1, 0],
+                      [1, 1, 1, 0, 1]], dtype=np.int32)
+    trj = md.load(get_fn('sevick1988.gro'))
+    direct = pairing.generate_direct_correlation(trj, cutoff=0.8)
+    indirect = pairing.new_generate_indirect(direct)
+
+    assert (indirect == ref).all()
