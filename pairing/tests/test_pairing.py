@@ -1,9 +1,3 @@
-"""
-Unit and regression test for the pairing package.
-
-"""
-
-# Import package, test suite, and other packages as needed
 import pytest
 import numpy as np
 import mdtraj as md

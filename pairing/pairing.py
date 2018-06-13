@@ -1,10 +1,3 @@
-"""
-pairing.py
-analyze pairing and clustering of molecular systems
-
-Handles the primary functions
-"""
-
 from copy import deepcopy
 import itertools
 
@@ -184,8 +177,3 @@ def new_generate_indirect(direct_corr):
                 new_indirect)
 
     return new_indirect
-
-
-if __name__ == "__main__":
-    # Do something if this file is invoked on its own
-    print(canvas())
