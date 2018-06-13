@@ -1,5 +1,6 @@
 """
 Unit and regression test for the pairing package.
+
 """
 
 # Import package, test suite, and other packages as needed
@@ -9,6 +10,7 @@ import mdtraj as md
 
 from pairing.utils.io import get_fn
 import pairing
+
 
 def test_generate_direct_correlation():
     trj = md.load(get_fn('sevick1988.gro'))
@@ -49,7 +51,7 @@ def test_check_validity_pass():
                       [0, 0, 0, 1, 0],
                       [1, 1, 1, 0, 1]], dtype=np.int32)
 
-    assert pairing.pairing._check_validity(c_I) == True
+    assert pairing.pairing._check_validity(c_I)
 
 
 def test_check_validity_fail():
@@ -59,7 +61,7 @@ def test_check_validity_fail():
                                  [0, 0, 0, 1, 0],
                                  [1, 0, 1, 0, 1]], dtype=np.int32)
 
-    assert pairing.pairing._check_validity(c_intermediate) == False
+    assert not pairing.pairing._check_validity(c_intermediate)
 
 
 def test_40_atoms():
@@ -68,6 +70,7 @@ def test_40_atoms():
     indirect = pairing.pairing._generate_indirect_connectivity(direct)
 
     assert indirect.dtype == np.int32
+
 
 def test_indirect_matrix_reduction():
     trj = md.load(get_fn('sevick1988.gro'))
@@ -82,6 +85,7 @@ def test_indirect_matrix_reduction():
 
     assert (c_R == pairing.generate_clusters(indirect)).all()
 
+
 def test_cluster_analysis():
     trj = md.load(get_fn('sevick1988.gro'))
     direct = pairing.generate_direct_correlation(trj, cutoff=0.8)
@@ -89,6 +93,7 @@ def test_cluster_analysis():
     reduction = pairing.generate_clusters(indirect)
 
     assert pairing.analyze_clusters(reduction) == (2.5, 1.5)
+
 
 def test_new_indirect():
     ref = np.asarray([[1, 1, 1, 0, 1],
