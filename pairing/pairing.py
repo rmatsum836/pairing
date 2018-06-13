@@ -45,7 +45,7 @@ def generate_direct_correlation(trj, cutoff=1.0):
     return direct_corr
 
 
-def generate_indirect_connectivity(direct_corr):
+def _generate_indirect_connectivity(direct_corr):
     """
     Genrate indirect correlation matrix from a direct correlation matrix
 
@@ -141,6 +141,7 @@ def _find_intersection(a, b):
     intersection = np.maximum(a, b)
     return intersection
 
+
 def _check_validity(c_I):
     """
     Check validity of indirect connectivity matrix
@@ -155,8 +156,35 @@ def _check_validity(c_I):
     Boolean 'True' or 'False'
     """
 
-    test_indirect = generate_indirect_connectivity(c_I)
+    test_indirect = _generate_indirect_connectivity(c_I)
     return (test_indirect == c_I).all()
+
+
+def new_generate_indirect(direct_corr):
+    """
+    Iteratively call '_generate_indirect_connectivity' and
+    '_check_validity' to generate valid indirect correlation
+    matrices
+
+    Parameters
+    ----------
+    direct_corr : np.ndarray
+    direct correlation matrix
+
+    Returns
+    _______
+    new_indirect : np.ndarray
+    indirect connectivity matrix
+    """
+
+    new_indirect = _generate_indirect_connectivity(
+            direct_corr)
+    while _check_validity(new_indirect) == False:
+        new_indirect = _generate_indirect_connectivity(
+                new_indirect)
+
+    return new_indirect
+
 
 if __name__ == "__main__":
     # Do something if this file is invoked on its own
