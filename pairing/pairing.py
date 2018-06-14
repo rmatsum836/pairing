@@ -172,7 +172,7 @@ def new_generate_indirect(direct_corr):
 
     new_indirect = _generate_indirect_connectivity(
             direct_corr)
-    while not_check_validity(new_indirect):
+    while not _check_validity(new_indirect):
         new_indirect = _generate_indirect_connectivity(
                 new_indirect)
 
