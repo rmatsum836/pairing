@@ -62,12 +62,14 @@ def _generate_indirect_connectivity(direct_corr):
 
     for combo in itertools.combinations([_ for _ in range(length)], 2):
         for i in range(length):
-            if c[i, combo[0]] == c[i, combo[1]]:
-                if c[i, combo[0]] == 0:
-                    continue
+            vals = [c[i, combo[0]], c[i, combo[1]]]
+            if vals == [0, 0]:
+                continue
+            elif vals == [1, 1]:
                 intersect = _find_intersection(c[:, combo[0]], c[:, combo[1]])
                 c[:, combo[0]] = intersect
                 c[:, combo[1]] = intersect
+                continue
 
     indirect_corr = c
     return indirect_corr
