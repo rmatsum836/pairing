@@ -4,6 +4,24 @@ import itertools
 import numpy as np
 import mdtraj as md
 
+def alt_indirect(direct_corr):
+    for row in direct_corr:
+        ones = np.where(row == 1)[0]
+        if len(ones) == 1:
+            continue
+        elif len(ones) == 2:
+            direct_corr[:,ones[0]] = np.maximum(direct_corr[:,ones[0]]
+                    , direct_corr[:,ones[1]])
+            direct_corr[:,ones[1]] = direct_corr[:,ones[0]]
+        else:
+            intersect = np.maximum.reduce(
+                    [direct_corr[:,ele] for ele in ones])
+            for ele in ones:
+                direct_corr[:,ele] = intersect
+    indirect = direct_corr
+
+    return indirect
+
 
 def generate_direct_correlation(trj, cutoff=1.0):
     """
