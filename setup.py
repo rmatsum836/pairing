@@ -1,3 +1,7 @@
+"""
+pairing
+analyze pairing and clustering of molecular systems
+"""
 from setuptools import setup
 import versioneer
 
