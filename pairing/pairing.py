@@ -56,10 +56,9 @@ def generate_indirect_connectivity(direct_corr):
         if len(ones) == 1:
             continue
         else:
-            intersect = np.maximum.reduce(
-                    [c[:,ele] for ele in ones])
+            intersect = np.maximum.reduce(c[:, ones].T)
             for ele in ones:
-                c[:,ele] = intersect
+                c[:, ele] = intersect
     indirect = c
 
     return indirect
