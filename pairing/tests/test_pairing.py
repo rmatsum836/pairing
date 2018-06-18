@@ -35,33 +35,13 @@ def test_sevick1988():
                       [0, 0, 0, 1, 0],
                       [1, 1, 1, 0, 1]], dtype=np.int32)
 
-    assert (c_I == pairing.pairing._generate_indirect_connectivity(c_D)).all()
-
-
-def test_check_validity_pass():
-    c_I = np.asarray([[1, 1, 1, 0, 1],
-                      [1, 1, 1, 0, 1],
-                      [1, 1, 1, 0, 1],
-                      [0, 0, 0, 1, 0],
-                      [1, 1, 1, 0, 1]], dtype=np.int32)
-
-    assert pairing.pairing._check_validity(c_I)
-
-
-def test_check_validity_fail():
-    c_intermediate = np.asarray([[1, 0, 0, 0, 1],
-                                 [0, 1, 1, 0, 0],
-                                 [1, 1, 1, 0, 1],
-                                 [0, 0, 0, 1, 0],
-                                 [1, 0, 1, 0, 1]], dtype=np.int32)
-
-    assert not pairing.pairing._check_validity(c_intermediate)
+    assert (c_I == pairing.generate_indirect_connectivity(c_D)).all()
 
 
 def test_40_atoms():
     trj = md.load(get_fn('sevick1988.gro'))
     direct = pairing.generate_direct_correlation(trj, cutoff=0.8)
-    indirect = pairing.pairing._generate_indirect_connectivity(direct)
+    indirect = pairing.generate_indirect_connectivity(direct)
 
     assert indirect.dtype == np.int32
 
@@ -69,7 +49,7 @@ def test_40_atoms():
 def test_indirect_matrix_reduction():
     trj = md.load(get_fn('sevick1988.gro'))
     direct = pairing.generate_direct_correlation(trj, cutoff=0.8)
-    indirect = pairing.pairing._generate_indirect_connectivity(direct)
+    indirect = pairing.generate_indirect_connectivity(direct)
 
     c_R = np.asarray([[0, 1],
                       [0, 1],
@@ -83,20 +63,7 @@ def test_indirect_matrix_reduction():
 def test_cluster_analysis():
     trj = md.load(get_fn('sevick1988.gro'))
     direct = pairing.generate_direct_correlation(trj, cutoff=0.8)
-    indirect = pairing.pairing._generate_indirect_connectivity(direct)
+    indirect = pairing.generate_indirect_connectivity(direct)
     reduction = pairing.generate_clusters(indirect)
 
     assert pairing.analyze_clusters(reduction) == (2.5, 1.5)
-
-
-def test_new_indirect():
-    ref = np.asarray([[1, 1, 1, 0, 1],
-                      [1, 1, 1, 0, 1],
-                      [1, 1, 1, 0, 1],
-                      [0, 0, 0, 1, 0],
-                      [1, 1, 1, 0, 1]], dtype=np.int32)
-    trj = md.load(get_fn('sevick1988.gro'))
-    direct = pairing.generate_direct_correlation(trj, cutoff=0.8)
-    indirect = pairing.new_generate_indirect(direct)
-
-    assert (indirect == ref).all()
