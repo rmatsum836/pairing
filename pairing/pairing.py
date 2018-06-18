@@ -42,12 +42,12 @@ def generate_indirect_connectivity(direct_corr):
     """
     Parameters
     ----------
-    direct_corr: np.ndarray
+    direct_corr: np.ndarray, dtype=np.int32
     direct correlation matrix
 
     Returns
     -------
-    indirect: np.ndarray
+    indirect: np.ndarray, dtype=np.int32
     indirect connectivity matrix
     """
     c = deepcopy(direct_corr)
