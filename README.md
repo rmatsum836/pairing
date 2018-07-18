@@ -9,7 +9,7 @@ analyze pairing and clustering of molecular systems
 
 ### Copyright
 
-Copyright (c) 2018, Matthew W. Thompson, Ray Matsumodo
+Copyright (c) 2018, Matthew W. Thompson, Ray Matsumoto
 
 
 #### Acknowledgements
