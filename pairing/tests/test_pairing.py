@@ -4,6 +4,7 @@ import mdtraj as md
 
 from pairing.utils.io import get_fn
 import pairing
+from mtools.gromacs.gromacs import make_comtrj
 
 
 def test_generate_direct_correlation():
@@ -69,14 +70,41 @@ def test_cluster_analysis():
     assert pairing.analyze_clusters(reduction) == (2.5, 1.5)
 
 
-def test_new_indirect():
-    ref = np.asarray([[1, 1, 1, 0, 1],
-                      [1, 1, 1, 0, 1],
-                      [1, 1, 1, 0, 1],
-                      [0, 0, 0, 1, 0],
-                      [1, 1, 1, 0, 1]], dtype=np.int32)
-    trj = md.load(get_fn('sevick1988.gro'))
-    direct = pairing.pairing._generate_direct_correlation(trj, cutoff=0.8)
-    indirect = pairing.pairing._generate_indirect_connectivity(direct)
+def test_len_direct():
+    trj = md.load(get_fn('tip3p_test.trr'), top=get_fn('tip3p_test.gro'))
+    direct = pairing.calc_direct(trj, cutoff=0.3)
 
-    assert (indirect == ref).all()
+    assert len(direct) == trj.n_frames
+
+
+def test_len_indirect():
+    trj = md.load(get_fn('tip3p_test.trr'), top=get_fn('tip3p_test.gro'))
+    direct = pairing.calc_direct(trj, cutoff=0.3)
+    indirect = pairing.calc_indirect(direct)
+
+    assert len(indirect) == trj.n_frames
+
+
+def test_check_pairs():
+    ref = np.asarray([[1, 0, 0, 0, 0],
+                      [0, 1, 0, 0, 0],
+                      [0, 0, 1, 0, 0],
+                      [0, 0, 0, 1, 0],
+                      [0, 0, 0, 0, 1]])
+    trj = md.load(get_fn('tip3p_test.trr'), top=get_fn('tip3p_test.gro'))
+    first = make_comtrj(trj[0])
+    first_direct = pairing.pairing._generate_direct_correlation(
+            first, cutoff=0.3)
+    check = pairing.check_pairs(trj, 0.3, first_direct)
+
+    assert (check[20] == ref).all()
+
+
+def test_len_check_pairs():
+    trj = md.load(get_fn('tip3p_test.trr'), top=get_fn('tip3p_test.gro'))
+    first = make_comtrj(trj[0])
+    first_direct = pairing.pairing._generate_direct_correlation(
+            first, cutoff=0.3)
+    check = pairing.check_pairs(trj, 0.3, first_direct)
+
+    assert len(check) == trj.n_frames
