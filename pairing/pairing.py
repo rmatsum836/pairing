@@ -80,8 +80,8 @@ def _generate_direct_correlation(trj, cutoff=1.0):
                 direct_corr[row, col] = 1
             else:
                 dist = md.compute_distances(trj, atom_pairs=[(row, col)])
-                if dist < cutoff: 
-                    direct_corr[row, col] = 1 
+                if dist < cutoff:
+                    direct_corr[row, col] = 1
                     direct_corr[col, row] = 1
 
     return direct_corr
