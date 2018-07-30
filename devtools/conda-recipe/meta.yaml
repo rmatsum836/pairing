@@ -3,10 +3,11 @@ package:
   version: "0.0.0"
 
 source:
-  path: ../..
+  path: ../../
 
 build:
-  number: 0
+  number: {{ environ.get('GIT_DESCRIBE_NUMBER', 0)}}
+  script: python setup.py install --record record.txt
 
 requirements:
   build:
@@ -17,6 +18,7 @@ requirements:
     - python
     - numpy
     - mdtraj
+    - mtools
 
 test:
   requires:
@@ -25,5 +27,6 @@ test:
     - pairing
 
 about:
-  home: add_url_here
+  home: https://github.com/mattwthompson/pairing
   license: MIT License
+  summary: analyze pairing and clustering of molecular systems
