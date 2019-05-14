@@ -3,7 +3,7 @@ import itertools
 
 import numpy as np
 import mdtraj as md
-from mtools.gromacs.gromacs import make_comtrj
+from pairing.utils.misc import make_comtrj
 
 
 def calc_indirect(direct_array):

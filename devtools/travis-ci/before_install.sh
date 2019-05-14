@@ -30,8 +30,6 @@ conda config --add channels conda-forge
 conda config --add channels mwt
     
 conda config --set always_yes yes
-conda install conda conda-build jinja2 anaconda-client
-conda update --quiet --all
 
 # Restore original directory
 popd

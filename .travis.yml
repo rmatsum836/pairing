@@ -41,9 +41,8 @@ install:
     # Install pip only modules
   - pip install codecov
 
-    # Build and install package
-  - conda build --python=$PYTHON_VER devtools/conda-recipe
-  - conda install --use-local pairing
+    # Install package
+  - pip install -e .
 
 
 script:
