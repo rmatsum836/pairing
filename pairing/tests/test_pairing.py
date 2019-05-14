@@ -4,7 +4,7 @@ import mdtraj as md
 
 from pairing.utils.io import get_fn
 import pairing
-from mtools.gromacs.gromacs import make_comtrj
+from pairing.utils.misc import make_comtrj
 
 
 def test_generate_direct_correlation():
