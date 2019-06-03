@@ -7,7 +7,7 @@ pairing
 
 A collection of functions written in Python to analyze pairing and clustering of molecular systems.  The algorithms implemented are from Sevick et al. (DOI: 10.1063/1.454720)
 
-If you use this package, please cite our github landing page(https://github.com/mattwthompson/pairing).  The
+If you use this package, please cite our Zenodo DOI.  The
 BibTex reference is 
 ```
 @misc{pairing_thompson_2019,
