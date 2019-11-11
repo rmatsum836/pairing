@@ -1,4 +1,6 @@
 environment:
+  global:
+      PYTHONNUNBUFFERED: 1
 
   matrix:
     - PYTHON: "C:\\Miniconda35-x64"
@@ -38,4 +40,5 @@ install:
 build: false
 
 test_script:
+  - activate base
   - pytest -v --cov=pairing pairing\\tests
