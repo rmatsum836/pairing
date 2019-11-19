@@ -9,7 +9,6 @@ from __future__ import absolute_import
 
 # Add imports here
 from .pairing import *
-from .utils import *
 
 # Handle versioneer
 from ._version import get_versions
