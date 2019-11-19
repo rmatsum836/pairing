@@ -8,7 +8,7 @@ analyze pairing and clustering of molecular systems
 from __future__ import absolute_import
 
 # Add imports here
-from pairing import *
+#from .pairing import *
 
 # Handle versioneer
 from ._version import get_versions
