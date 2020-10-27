@@ -33,10 +33,11 @@ def check_pairs(trj, cutoff, first_direct):
     from frame zero
     """
     trj = make_comtrj(trj)
+    atoms = [i for i in trj.topology.atoms]
     direct_list = []
     for frame in trj:
        c = deepcopy(first_direct)
-       matrix = _check_direct(c, frame, cutoff)
+       matrix = _check_direct(c, frame, cutoff, atoms)
        direct_list.append(matrix)
 
     return direct_list
@@ -63,7 +64,7 @@ def _generate_direct_correlation(trj, cutoff=1.0):
     ----------
     trj : mdtraj.Trajectory
         Trajectory for which "atom" sites are to be considered
-    cutoff : float, default = 0.8
+    cutoff : dict, default = 0.8
         Distance cutoff below which two sites are considered paired
 
     Returns
@@ -73,6 +74,7 @@ def _generate_direct_correlation(trj, cutoff=1.0):
     """
     size = trj.top.n_residues
     direct_corr = np.zeros((size, size), dtype=np.int32)
+    atoms = [i for i in trj.topology.atoms]
 
     for row in range(size):
         for col in range(size):
@@ -80,14 +82,16 @@ def _generate_direct_correlation(trj, cutoff=1.0):
                 direct_corr[row, col] = 1
             else:
                 dist = md.compute_distances(trj, atom_pairs=[(row, col)])
-                if dist < cutoff:
+                cutoff_string = "{}-{}".format(atoms[row].residue.name, atoms[col].residue.name)
+                specific_cutoff = cutoff[cutoff_string]
+                if dist < specific_cutoff:
                     direct_corr[row, col] = 1
                     direct_corr[col, row] = 1
 
     return direct_corr
 
 
-def _check_direct(direct_corr, frame, cutoff):
+def _check_direct(direct_corr, frame, cutoff, atoms):
     """
     Check if paired atoms are still paired
     """
@@ -96,7 +100,9 @@ def _check_direct(direct_corr, frame, cutoff):
             if direct_corr[row][col] == 1:
                 dist = md.compute_distances(frame,
                         atom_pairs=[(row, col)])
-                if dist < cutoff:
+                cutoff_string = "{}-{}".format(atoms[row].residue.name, atoms[col].residue.name)
+                specific_cutoff = cutoff[cutoff_string]
+                if dist < specific_cutoff:
                     continue
                 else:
                     direct_corr[row][col] = 0
