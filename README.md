@@ -1,6 +1,7 @@
 pairing
 ==============================
 [//]: # (Badges)
+[![Build Status](https://dev.azure.com/rayamatsumoto/pairing/_apis/build/status/PTC-CMC.pairing?branchName=refs%2Fpull%2F20%2Fmerge)](https://dev.azure.com/rayamatsumoto/pairing/_build/latest?definitionId=6&branchName=refs%2Fpull%2F20%2Fmerge)
 [![codecov](https://codecov.io/gh/mattwthompson/pairing/branch/master/graph/badge.svg)](https://codecov.io/gh/mattwthompson/pairing/branch/master)
 
 A collection of functions written in Python to analyze pairing and clustering of molecular systems.  The algorithms implemented are from Sevick et al. (DOI: 10.1063/1.454720)
