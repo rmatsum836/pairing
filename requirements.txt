@@ -1,2 +1,5 @@
 numpy
 mdtraj
+codecov
+pytest-cov
+pytest
