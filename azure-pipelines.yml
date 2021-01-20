@@ -68,7 +68,7 @@ stages:
           - bash: |
               source activate test-environment
               coverage xml
-              codecov --file ./coverage.xml --token 
+              codecov --file ./coverage.xml --token 2b505752-6d26-4bda-b161-98bfb22ec451
             condition: and( eq( variables['Agent.OS'], 'Linux' ), eq( variables['python.version'], '3.7' ) )
           - task: PublishCodeCoverageResults@1
             inputs:
