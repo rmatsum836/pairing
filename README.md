@@ -1,8 +1,6 @@
 pairing
 ==============================
 [//]: # (Badges)
-[![Travis Build Status](https://travis-ci.org/mattwthompson/pairing.png)](https://travis-ci.org/mattwthompson/pairing)
-[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/4bskoqtinosvgbch?svg=true)](https://ci.appveyor.com/project/mattwthompson/pairing/branch/master)
 [![codecov](https://codecov.io/gh/mattwthompson/pairing/branch/master/graph/badge.svg)](https://codecov.io/gh/mattwthompson/pairing/branch/master)
 
 A collection of functions written in Python to analyze pairing and clustering of molecular systems.  The algorithms implemented are from Sevick et al. (DOI: 10.1063/1.454720)
